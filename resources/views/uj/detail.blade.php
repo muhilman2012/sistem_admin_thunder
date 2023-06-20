@@ -36,25 +36,25 @@
                 <div class="col-lg-3 mb-1">
                     <div class="form-group">
                         <label for="name">Nama Event</label>
-                        <input readonly type="text" class="form-control" id="name" placeholder="Masukkan Nama Event" value="{{ $uj->nama_event }}">
+                        <input disabled type="text" class="form-control" id="name" placeholder="Masukkan Nama Event" value="{{ $uj->nama_event }}">
                     </div>
                 </div>
                 <div class="col-lg-3 mb-1">
                     <div class="form-group">
                         <label for="venue">Venue Event</label>
-                        <input readonly type="text" class="form-control" id="venue" placeholder="Masukkan Venue Event" value="{{ $uj->venue }}">
+                        <input disabled type="text" class="form-control" id="venue" placeholder="Masukkan Venue Event" value="{{ $uj->venue }}">
                     </div>
                 </div>
                 <div class="col-lg-3 mb-1">
                     <div class="form-group">
                         <label for="tanggal">Tanggal Show</label>
-                        <input readonly type="date" class="form-control" name="tanggal" id="tanggal"value="{{ $uj->tanggal_show }}">
+                        <input disabled type="date" class="form-control" name="tanggal" id="tanggal"value="{{ $uj->tanggal_show }}">
                     </div>
                 </div>
                 <div class="col-lg-3 mb-1">
                     <div class="form-group">
                         <label for="tanggal">Tanggal Pengajuan UJ</label>
-                        <input readonly type="date" class="form-control" name="tanggal" id="tanggal" value="{{ $uj->created_at->format('Y-m-d') }}">
+                        <input disabled type="date" class="form-control" name="tanggal" id="tanggal" value="{{ $uj->created_at->format('Y-m-d') }}">
                     </div>
                 </div>
             </div>
@@ -83,13 +83,20 @@
                                                 </tr>
                                             </thead>
                                             <tbody>
+                                                <?php $totalUangCrew = 0; ?>
                                                 @foreach ($uj->crew as $crew)
                                                     <tr>
                                                         <td class="text-bold-500">{{ $crew->nama_crew }}</td>
                                                         <td class="text-bold-500">{{ $crew->divisi_crew }}</td>
                                                         <td>Rp. {{ number_format($crew->nominal_fee, 0, ',', '.') }}</td>
                                                     </tr>
+                                                    <?php $totalUangCrew += $crew->nominal_fee; ?>
                                                 @endforeach
+                                                    <tr>
+                                                        <th></th>
+                                                        <th></th>
+                                                        <th class="text-success">Total Uang Fee Crew = Rp. {{ number_format($totalUangCrew, 0, ',', '.') }}</th>
+                                                    </tr>
                                             </tbody>
                                         </table>
                                     </div>
@@ -117,6 +124,11 @@
                                                     <td>Rp. {{ number_format($uj->fee_operator, 0, ',', '.') }}</td>
                                                     <td class="text-bold-500">Rp. {{ number_format($uj->fee_transport, 0, ',', '.') }}</td>
                                                 </tr>
+                                                <tr>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <th class="text-success">Total Uang Fee = Rp. {{ number_format($uj->total_uang_jalan, 0, ',', '.') }}</th>
+                                                </tr>
                                             </tbody>
                                         </table>
                                     </div>
@@ -124,7 +136,7 @@
                                 <div class="card"></div>
                                 <div class="card-body">
                                     <div class="buttons">
-                                        <div class="alert alert-success"><i class="bi bi-check-circle"></i>  Total Uang Jalan = Rp. {{ number_format($uj->total_uang_jalan, 0, ',', '.') }}</div>
+                                        <div class="alert alert-success"><i class="bi bi-check-circle"></i>  Total Uang Jalan = Rp. {{ number_format($uj->total_uang_jalan+$totalUangCrew, 0, ',', '.') }}</div>
                                     </div>
                                 </div>
                             </div>
@@ -144,9 +156,8 @@
                 </div>
                 <div class="card-body">
                     <div class="form-floating">
-                        <textarea class="form-control" placeholder="Leave a comment here"
+                        <textarea disabled class="form-control" placeholder="Leave a comment here"
                             id="notes">{{ $uj->notes }}</textarea>
-                        <label for="note">Notes</label>
                     </div>
                 </div>
             </div>

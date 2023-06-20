@@ -34,6 +34,11 @@
         <div class="card-body">
             <form action="{{ route('uj.store') }}" method="POST">
                 @csrf
+                @if(session('success'))
+                    <div class="alert alert-success">
+                        {{ session('success') }}
+                    </div>
+                @endif
                 <div class="row">
                     <div class="col-lg-4 mb-1">
                         <div class="form-group">
@@ -73,10 +78,10 @@
                             <div class="col-md-12">
                                 <div class="form-group">
                                     <label for="crew_ids">Pilih Crew</label>
-                                    <select class="choices form-select multiple-remove" multiple="multiple" name="crew_ids[]">
+                                    <select class="choices form-select multiple-remove" multiple="multiple" name="crew_ids[]" id="crew_ids">
                                         <optgroup>
                                             @foreach($crewList as $crew)
-                                            <option value="{{ $crew->crew_id }}">{{ $crew->nama_crew }}</option>
+                                            <option name="crew_ids[]" id="crew_ids" value="{{ $crew->crew_id }}">{{ $crew->nama_crew }} - {{ $crew->divisi_crew }}</option>
                                             @endforeach
                                         </optgroup>
                                     </select>
@@ -143,5 +148,9 @@
     <button type="submit" class="btn btn-outline-primary form-control">Submit</button>
 </div>
 </form>
+
+@endsection
+
+@section('script')
 
 @endsection

@@ -29,7 +29,7 @@
     <section class="section">
         <div class="card">
             <div class="card-header">
-                <a href="{{ route ('uj.create') }}" class="btn icon icon-left btn-primary"><i data-feather="edit"></i> Tambah Data</a>
+                <a href="{{ route ('uj.store') }}" class="btn icon icon-left btn-primary"><i data-feather="edit"></i> Tambah Data</a>
             </div>
             <div class="card-body">
                 <table class="table" id="table1">

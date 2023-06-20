@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\UJ;
 use App\Models\Crew;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\DB;
 
 class UJController extends Controller
 {
@@ -23,6 +24,7 @@ class UJController extends Controller
 
     public function store(Request $request)
     {
+        
         $validatedData = $request->validate([
             'nama_event' => 'required',
             'venue' => 'required',
@@ -44,20 +46,18 @@ class UJController extends Controller
         $uj->fee_transport = $validatedData['fee_transport'];
         $uj->notes = $validatedData['notes'];
 
-        $totalUangJalan = $uj->fee_pic + $uj->fee_operator + $uj->fee_transport + $uj->getTotalFee();
+        $totalUangJalan = $uj->fee_pic + $uj->fee_operator + $uj->fee_transport;
         $uj->total_uang_jalan = $totalUangJalan;
-
+        
         $uj->save();
 
-        $crewIds = $request->input('crew_ids');
-        $uj->crew()->attach($crewIds);
 
-        return redirect()->route('uj.data');
+        return redirect()->route('uj.data')->with('success', 'Data UJ berhasil ditambahkan.');
     }
 
     public function show($id)
     {
-        $uj = UJ::with('crew')->findOrFail($id);
+        $uj = UJ::with('Crew')->findOrFail($id);
         return view('uj.detail', compact('uj'));
     }
 
@@ -82,7 +82,7 @@ class UJController extends Controller
         $uj->tanggal_show = $validatedData['tanggal_show'];
         $uj->save();
 
-        return redirect()->route('uj.data');
+        return redirect()->route('uj.data')->with('success', 'Data UJ berhasil diperbarui.');
     }
 
     public function destroy($id)
@@ -90,6 +90,6 @@ class UJController extends Controller
         $uj = UJ::findOrFail($id);
         $uj->delete();
 
-        return redirect()->route('uj.data');
+        return redirect()->route('uj.data')->with('success', 'Data UJ berhasil dihapus.');
     }
 }

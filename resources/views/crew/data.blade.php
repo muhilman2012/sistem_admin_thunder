@@ -46,7 +46,7 @@
                         <tr>
                             <td>{{ $crew->nama_crew }}</td>
                             <td>{{ $crew->divisi_crew }}</td>
-                            <td>{{ $crew->nominal_fee }}</td>
+                            <td>Rp. {{ number_format($crew->nominal_fee, 0, ',', '.') }}</td>
                             <td>
                                 <a href="{{ route('uj.detail', $crew->crew_id) }}" class="btn icon btn-primary"><i class="bi bi-eye"></i></a>
                                 <a href="{{ route('crew.edit', $crew->crew_id) }}" class="btn icon btn-warning"><i class="bi bi-pencil"></i></a>

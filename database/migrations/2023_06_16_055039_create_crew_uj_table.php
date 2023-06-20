@@ -12,9 +12,11 @@ return new class extends Migration
     public function up()
     {
         Schema::create('crew_uj', function (Blueprint $table) {
-            $table->foreignId('crew_id')->constrained('crew', 'crew_id')->onDelete('cascade');
-            $table->foreignId('uj_id')->constrained('uj', 'uj_id')->onDelete('cascade');
-            $table->primary(['crew_id', 'uj_id']);
+            $table->unsignedBigInteger('crew_id');
+            $table->unsignedBigInteger('uj_id');
+            $table->foreign('crew_id')->references('crew_id')->on('crew')->onDelete('cascade');
+            $table->foreign('uj_id')->references('uj_id')->on('uj')->onDelete('cascade');
+            $table->timestamps();
         });
     }
 

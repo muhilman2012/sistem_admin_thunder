@@ -68,9 +68,9 @@ class crewController extends Controller
         return redirect()->route('crew.data')->with('success', 'Data Crew berhasil diperbarui.');
     }
 
-    public function destroy($id)
+    public function destroy($crew_id)
     {
-        $crew = crew::findOrFail($id);
+        $crew = crew::findOrFail($crew_id);
         $crew->delete();
 
         return redirect()->route('crew.data')->with('success', 'Data Crew berhasil dihapus.');
